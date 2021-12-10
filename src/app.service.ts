@@ -39,7 +39,7 @@ export class AppService {
 
     const amaount = calculateTotal(order.products, order.delivery)
 
-    if (params.amount !== amaount)
+    if (params.amount / 100 !== amaount)
       return { error: { code: -31001, message: AMOUNT_IS_NOT_VALID } }
 
     if (order.status === 'new' && !order.isPaid) {
@@ -73,7 +73,7 @@ export class AppService {
     if (!order) return { error: { code: -31050, message: ORDER_NOT_FOUND } }
 
     const amaount = calculateTotal(order.products, order.delivery)
-    if (params.amount !== amaount)
+    if (params.amount / 100 !== amaount)
       return { error: { code: -31001, message: AMOUNT_IS_NOT_VALID } }
 
     if (order.status !== 'new')
