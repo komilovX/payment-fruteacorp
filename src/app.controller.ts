@@ -11,6 +11,7 @@ export class AppController {
   @HttpCode(200)
   post(@Body() dto: PaymeRequestDto, @Headers('Authorization') authorization) {
     const { method, params } = dto
+    console.log('params', params)
 
     if (authorization) {
       const token = Buffer.from(
