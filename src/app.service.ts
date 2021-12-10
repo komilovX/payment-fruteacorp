@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { ORDER_NOT_ACTIVE, ORDER_NOT_FOUND } from './common/errors.constant'
+import {
+  AMOUNT_IS_NOT_VALID,
+  ORDER_NOT_ACTIVE,
+  ORDER_NOT_FOUND,
+} from './common/errors.constant'
 import { Orders } from './entities/order.entity'
 import { Transaction } from './entities/transaction.entity'
 import { Users } from './entities/user.entity'
 import {
+  calculateTotal,
   returnCancelTransaction,
   returnError,
   returnPerformTransaction,
@@ -31,6 +36,11 @@ export class AppService {
     })
 
     if (!order) return { error: { code: -31050, message: ORDER_NOT_FOUND } }
+
+    const amaount = calculateTotal(order.products, order.delivery)
+
+    if (params.amount !== amaount)
+      return { error: { code: -31001, message: AMOUNT_IS_NOT_VALID } }
 
     if (order.status === 'new' && !order.isPaid) {
       return {
@@ -59,7 +69,12 @@ export class AppService {
     const order = await this.ordersRepository.findOne({
       id: params.account['FruteaCorp'],
     })
+
     if (!order) return { error: { code: -31050, message: ORDER_NOT_FOUND } }
+
+    const amaount = calculateTotal(order.products, order.delivery)
+    if (params.amount !== amaount)
+      return { error: { code: -31001, message: AMOUNT_IS_NOT_VALID } }
 
     if (order.status !== 'new')
       return { error: { code: -31050, message: ORDER_NOT_ACTIVE } }

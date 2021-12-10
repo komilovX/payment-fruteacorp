@@ -54,3 +54,12 @@ export function sendMessageToBot(chat_id, lang = 'uz') {
     `https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendMessage?chat_id=${chat_id}&text=${orderText[lang]}&parse_mode=html`,
   )
 }
+
+export function calculateTotal(products, delivery) {
+  return (
+    JSON.parse(products).reduce(
+      (acc, val) => acc + Number(val.amount * val.price),
+      0,
+    ) + delivery
+  )
+}

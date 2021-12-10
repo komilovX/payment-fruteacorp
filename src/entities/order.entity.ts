@@ -18,6 +18,12 @@ export class Orders extends BaseEntity {
   @Column()
   total: number
 
+  @Column()
+  delivery: number
+
+  @Column()
+  products: string
+
   @Column({ nullable: true })
   transactionId: string
 

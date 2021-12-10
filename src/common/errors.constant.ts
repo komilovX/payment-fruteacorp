@@ -21,3 +21,9 @@ export const AMOUNT_IS_NOT_VALID = {
   uz: "To'lov qiymati xato",
   en: 'Amount is not valid',
 }
+
+export const WRONG_PASSWORD = {
+  ru: 'Неверная авторизация',
+  uz: "Noto'g'ri parol",
+  en: 'Invalid authorization',
+}
