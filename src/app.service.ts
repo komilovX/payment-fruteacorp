@@ -111,7 +111,10 @@ export class AppService {
       updatedTransaction = await this.transactionRepository.save(
         updatedTransaction,
       )
-      return returnCancelTransaction(-2, updatedTransaction)
+      return returnCancelTransaction(
+        updatedTransaction.state,
+        updatedTransaction,
+      )
     }
     return returnCancelTransaction(transaction.state, transaction)
   }
