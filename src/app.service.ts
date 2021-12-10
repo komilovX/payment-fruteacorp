@@ -98,8 +98,7 @@ export class AppService {
   async cancelTransaction(params: any) {
     const transaction = await this.findTransaction(params.id)
     if (!transaction) return returnError(params.id, -31003)
-    if (transaction.state !== 2)
-      return returnCancelTransaction(transaction.state, transaction)
+
     if (transaction.state === 2 || transaction.state === 1) {
       // check order status to cancel
 
@@ -114,6 +113,7 @@ export class AppService {
       )
       return returnCancelTransaction(-2, updatedTransaction)
     }
+    return returnCancelTransaction(transaction.state, transaction)
   }
 
   async performTransaction(params: any) {
