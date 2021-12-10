@@ -111,6 +111,19 @@ export class AppService {
       updatedTransaction = await this.transactionRepository.save(
         updatedTransaction,
       )
+      const order = await this.ordersRepository.findOne({
+        transactionId: transaction.transactionId,
+      })
+      if (order) {
+        await this.ordersRepository.update(order, {
+          status: 'cancelled',
+          isPaid: false,
+        })
+        return returnCancelTransaction(
+          transaction.state === 2 ? 2 : 1,
+          updatedTransaction,
+        )
+      }
       return returnCancelTransaction(
         updatedTransaction.state,
         updatedTransaction,
